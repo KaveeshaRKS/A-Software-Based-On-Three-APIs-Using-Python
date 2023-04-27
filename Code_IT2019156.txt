@@ -1,0 +1,313 @@
+#Used Jupyter Notebook in Python
+
+import tkinter as tk
+import requests
+import time
+# Import Required Module
+from tkinter import *
+from tkinter.ttk import *
+from tkinter import ttk,messagebox  
+from tkinter import Menu 
+import json
+from itertools import groupby
+import urllib.request
+import webbrowser
+from urllib.request import Request, urlopen
+import requests
+from io import BytesIO
+from PIL import Image
+import IPython
+import googletrans
+import textblob
+from googletrans import Translator, LANGUAGES
+import tkinter.font as font
+from tkinter import font as tkFont
+
+class FullScreenApp(object):
+        def __init__(self, master, **kwargs):
+            self.master=master
+            pad=3
+            self._geom='200x200+0+0'
+            master.geometry("{0}x{1}+0+0".format(
+                master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+            master.bind('<Escape>',self.toggle_geom)            
+        def toggle_geom(self,event):
+            geom=self.master.winfo_geometry()
+            print(geom,self._geom)
+            self.master.geometry(self._geom)
+            self._geom=geom
+
+canvas = tk.Tk()
+app=FullScreenApp(canvas)
+canvas.title("My App")
+
+def display1():
+    class FullScreenApp(object):
+        def __init__(self, master, **kwargs):
+            self.master=master
+            pad=3
+            self._geom='200x200+0+0'
+            master.geometry("{0}x{1}+0+0".format(
+                master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+            master.bind('<Escape>',self.toggle_geom)            
+        def toggle_geom(self,event):
+            geom=self.master.winfo_geometry()
+            print(geom,self._geom)
+            self.master.geometry(self._geom)
+            self._geom=geom
+
+    canvas = tk.Tk()
+    app=FullScreenApp(canvas)
+    canvas.title("My App")
+    
+    f = ("comic sans ms", 15, "bold")
+    t = ("comic sans ms", 35, "bold")
+    
+    textField = tk.Entry(canvas, justify='center', width = 20, font = t)
+    
+    class EntryWithPlaceholder(tk.Entry):
+        def __init__(self, master=None, placeholder="PLACEHOLDER", color='grey'):
+            super().__init__(master)
+
+            self.placeholder = placeholder
+            self.placeholder_color = color
+            self.default_fg_color = self['fg']
+
+            self.bind("<FocusIn>", self.foc_in)
+            self.bind("<FocusOut>", self.foc_out)
+
+            self.put_placeholder()
+
+        def put_placeholder(self):
+            self.insert(0, self.placeholder)
+            self['fg'] = self.placeholder_color
+
+        def foc_in(self, *args):
+            if self['fg'] == self.placeholder_color:
+                self.delete('0', 'end')
+                self['fg'] = self.default_fg_color
+
+        def foc_out(self, *args):
+            if not self.get():
+                self.put_placeholder()
+
+    if __name__ == "__main__": 
+        textField = EntryWithPlaceholder(canvas, "Type City Name")
+    
+    textField.place(x=400, y=160)
+    textField.focus()
+    
+    textField.grid(row=4,
+               column=10,
+               padx=350,
+               pady=180,
+               ipady=15,
+               ipadx=60)
+    textField['font']=t
+    textField['justify']='center'
+
+    label1 = tk.Label(canvas, font=t)
+    label1.place(x=610, y=300)
+    label2 = tk.Label(canvas, font=f)
+    label2.place(x=590, y=380)
+    
+    def getWeather(canvas):
+        city = textField.get()
+        api = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=06c921750b9a82d8f5d1294e1586276f"
+
+        json_data = requests.get(api).json()
+        condition = json_data['weather'][0]['main']
+        temp = int(json_data['main']['temp'] - 273.15)
+        min_temp = int(json_data['main']['temp_min'] - 273.15)
+        max_temp = int(json_data['main']['temp_max'] - 273.15)
+        pressure = json_data['main']['pressure']
+        humidity = json_data['main']['humidity']
+        wind = json_data['wind']['speed']
+        sunrise = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunrise'] - 19800))
+        sunset = time.strftime('%I:%M:%S', time.gmtime(json_data['sys']['sunset'] - 19800))
+
+        final_info = condition + "\n" + str(temp) + "°C" 
+        final_data = "\n"+ "Min Temp: " + str(min_temp) + "°C" + "\n" + "Max Temp: " + str(max_temp) + "°C" +"\n" + "Pressure: " + str(pressure) + "\n" +"Humidity: " + str(humidity) + "\n" +"Wind Speed: " + str(wind) + "\n" + "Sunrise: " + sunrise + "\n" + "Sunset: " + sunset
+        label1.config(text = final_info)
+        label2.config(text = final_data)
+        
+    textField.bind('<Return>', getWeather)
+    
+    b1 = Button(canvas, text="Weather", command=display1).place(x=100, y=100)
+    b2 = Button(canvas, text="Memes", command=display2).place(x=200, y=100)
+    b3 = Button(canvas, text="Translator", command=display3).place(x=300, y=100)
+
+
+
+    canvas.mainloop()
+    
+def display2():
+    class FullScreenApp(object):
+        def __init__(self, master, **kwargs):
+            self.master=master
+            pad=3
+            self._geom='200x200+0+0'
+            master.geometry("{0}x{1}+0+0".format(
+                master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+            master.bind('<Escape>',self.toggle_geom)            
+        def toggle_geom(self,event):
+            geom=self.master.winfo_geometry()
+            print(geom,self._geom)
+            self.master.geometry(self._geom)
+            self._geom=geom
+
+    canvas = tk.Tk()
+    app=FullScreenApp(canvas)
+    canvas.title("My App")
+    
+    t = ("comic sans ms", 35, "bold")
+    f = ("comic sans ms", 15, "bold")
+
+    label1 = tk.Label(canvas, font=f)
+    label1.pack()
+    a="Select a meme: "
+    label1.config(text = a)
+
+    label1.place(x=400, y=150)
+
+    api="https://api.imgflip.com/get_memes"
+    jason_data = requests.get(api).json()
+
+    list1=["Drake Hotline Bling",
+            "Two Buttons",
+            "Distracted Boyfriend",
+            "Running Away Balloon",
+            "Buff Doge vs. Cheems",
+            "Change My Mind",
+            "Left Exit 12 Off Ramp",
+            "UNO Draw 25 Cards",
+            "Gru's Plan"]
+
+            # datatype of menu text
+    clicked = tk.StringVar(canvas)
+
+            # initial menu text
+    clicked.set("Drake Hotline Bling")
+
+            # Create Dropdown menu
+    drop = tk.OptionMenu( canvas , clicked , *list1 )
+    drop.pack()
+    drop.place(x=600, y=150)
+    
+    def show():
+        item=clicked.get()
+        print(item)
+
+        for i in range(0,10):
+
+            nameofmeme = jason_data['data']['memes'][i]['name']
+            u=jason_data['data']['memes'][i]['url']
+
+            if item==nameofmeme:
+                print(nameofmeme, u)
+                im = Image.open(requests.get(u, stream=True).raw)
+                im.show()
+                break
+                
+    button1=tk.Button(canvas, text="Get Meme", command=show)
+    button1.pack()
+    button1.place(x=900, y=150)
+    
+    b1 = Button(canvas, text="Weather", command=display1).place(x=100, y=100)
+    b2 = Button(canvas, text="Memes", command=display2).place(x=200, y=100)
+    b3 = Button(canvas, text="Translator", command=display3).place(x=300, y=100)
+         
+def display3():
+    f = ("comic sans ms", 15, "bold")
+    class FullScreenApp(object):
+        def __init__(self, master, **kwargs):
+            self.master=master
+            pad=3
+            self._geom='200x200+0+0'
+            master.geometry("{0}x{1}+0+0".format(
+                master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+            master.bind('<Escape>',self.toggle_geom)            
+        def toggle_geom(self,event):
+            geom=self.master.winfo_geometry()
+            print(geom,self._geom)
+            self.master.geometry(self._geom)
+            self._geom=geom
+
+    canvas = tk.Tk()
+    app=FullScreenApp(canvas)
+    canvas.title("My App")
+    
+    def label_change():
+        c=combo1.get()
+        c1=combo2.get()
+        label1.configure(text=c)
+        label2.configure(text=c1)
+        canvas.after(1000, label_change)
+        
+    def translate_now():
+        
+        translator = Translator()
+        translated=translator.translate(text= text1.get(1.0, END) , src = combo1.get(), dest = combo2.get())
+        text2.delete(1.0, END)
+        text2.insert(END, translated.text)
+    
+    labela = tk.Label(canvas, font="comicsansms 14")
+    labela.place(x=620, y=350)
+    labela.config(text = "Convert Into")
+    
+    language=googletrans.LANGUAGES
+    languageV=list(language.values())
+    lang1=language.keys()
+    
+    combo1=ttk.Combobox(canvas,values=languageV,font="Roboto 14",state="r")
+    combo1.place(x=250,y=170)
+    combo1.set("ENGLISH")
+    
+    label1=Label(canvas, text="ENGLISH", font="segeo 30 bold", width=18, relief=GROOVE)
+    label1.place(x=175, y=210)
+    
+    f=Frame(canvas)
+    f.place(x=150, y=270, width=440, height=210)
+    
+    text1=Text(f,font="Robote 20", relief=GROOVE,wrap=WORD)
+    text1.place(x=0,y=0,width=430,height=200)
+    
+    scrollbar1=Scrollbar(f)
+    scrollbar1.pack(side="right", fill="y")
+    scrollbar1.configure(command=text1.yview)
+    text1.configure(yscrollcommand=scrollbar1.set)
+    
+    combo2=ttk.Combobox(canvas,values=languageV,font="RobotoV 14",state="r")
+    combo2.place(x=870,y=170)
+    combo2.set("SELECT LANGUAGE")
+    
+    label2=Label(canvas, text="ENGLISH", font="segeo 30 bold", width=18, relief=GROOVE)
+    label2.place(x=800, y=210)
+    
+    f1=Frame(canvas)
+    f1.place(x=800, y=270, width=440, height=210)
+    
+    text2=Text(f1,font="Robote 20", relief=GROOVE,wrap=WORD)
+    text2.place(x=0,y=0,width=430,height=200)
+    
+    scrollbar2=Scrollbar(f1)
+    scrollbar2.pack(side="right", fill="y")
+    scrollbar2.configure(command=text2.yview)
+    text2.configure(yscrollcommand=scrollbar2.set)
+    
+    b1 = Button(canvas, text="Weather", command=display1).place(x=100, y=100)
+    b2 = Button(canvas, text="Memes", command=display2).place(x=200, y=100)
+    b3 = Button(canvas, text="Translator", command=display3).place(x=300, y=100)
+    
+    translate=Button(canvas, text="Translate", cursor="hand2", command=translate_now)
+    translate.place(x=640, y=450)
+    
+    label_change()
+    
+b1 = Button(canvas, text="Weather", command=display1).place(x=100, y=100)
+b2 = Button(canvas, text="Memes", command=display2).place(x=200, y=100) 
+b3 = Button(canvas, text="Translator", command=display3).place(x=300, y=100) 
+
+      
+
+canvas.mainloop()
